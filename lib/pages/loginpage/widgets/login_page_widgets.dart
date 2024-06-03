@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spinemotion_app/pages/forgotpassword/forgot_password.dart';
 import 'package:spinemotion_app/pages/homepage/home_page.dart';
+import 'package:spinemotion_app/utils/routers.dart';
 
 import '../../../common/values/colors.dart';
 
-AppBar buildAppBar(){
+AppBar buildAppBar(String? name) {
   return AppBar(
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(1.0),
@@ -15,12 +17,11 @@ AppBar buildAppBar(){
       ),
     ),
     title: Text(
-      "Login",
+      name!,
       style: TextStyle(
           color: AppColors.primaryText,
           fontSize: 16.sp,
-          fontWeight: FontWeight.normal
-      ),
+          fontWeight: FontWeight.normal),
     ),
   );
 }
@@ -40,8 +41,7 @@ Widget buildIllustration(BuildContext context, String image) {
   );
 }
 
-
-Widget reusableText(String text){
+Widget reusableText(String text) {
   return Container(
     margin: EdgeInsets.only(bottom: 3.h),
     child: Text(
@@ -54,7 +54,8 @@ Widget reusableText(String text){
   );
 }
 
-Widget buildTextField(String hintText, String textType, String iconName){
+Widget buildTextField(String hintText, String textType, String iconName,
+    TextEditingController text) {
   return Container(
     width: 325.w,
     height: 50.h,
@@ -62,8 +63,7 @@ Widget buildTextField(String hintText, String textType, String iconName){
     decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15.w)),
-        border: Border.all(color: AppColors.primaryFourthElementText)
-    ),
+        border: Border.all(color: AppColors.primaryFourthElementText)),
     child: Row(
       children: [
         Container(
@@ -81,58 +81,45 @@ Widget buildTextField(String hintText, String textType, String iconName){
           width: 270.w,
           height: 50.h,
           child: TextField(
+            controller: text,
             keyboardType: TextInputType.multiline,
             decoration: InputDecoration(
               hintText: hintText,
               border: const OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.transparent
-                ),
+                borderSide: BorderSide(color: Colors.transparent),
               ),
               enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                    color: Colors.transparent
-                ),
+                borderSide: BorderSide(color: Colors.transparent),
               ),
               disabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.transparent
-                  )
-              ),
+                  borderSide: BorderSide(color: Colors.transparent)),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Colors.transparent
-                  )
-              ),
-              hintStyle: TextStyle(
-                  color: AppColors.primarySecondaryElementText
-              ),
-
-
+                  borderSide: BorderSide(color: Colors.transparent)),
+              hintStyle:
+                  TextStyle(color: AppColors.primarySecondaryElementText),
             ),
             style: TextStyle(
                 color: AppColors.primaryText,
                 fontFamily: "Avenir",
                 fontWeight: FontWeight.normal,
-                fontSize: 14.sp
-            ),
+                fontSize: 14.sp),
             autocorrect: false,
-            obscureText: textType=="password" ? true : false,
+            obscureText: textType == "password" ? true : false,
           ),
         )
       ],
     ),
   );
 }
-Widget forgotPassword(){
+
+Widget forgotPassword(BuildContext? context) {
   return Container(
     margin: EdgeInsets.only(left: 240.w),
     width: 260.w,
     height: 44.h,
     child: GestureDetector(
-      onTap: (){
-
-
+      onTap: () {
+        PageNavigator(ctx: context).nextPageOnly(page: ForgotPasswordPage());
       },
       child: Text(
         "Forgot Password",
@@ -140,53 +127,44 @@ Widget forgotPassword(){
             color: AppColors.primaryElement,
             decoration: TextDecoration.underline,
             decorationColor: AppColors.primaryElement,
-            fontSize: 12.sp
-        ),
+            fontSize: 12.sp),
       ),
     ),
   );
 }
 
-Widget buildLogInAndRegisterButton(BuildContext context, String buttonName, String buttonType){
+Widget buildLoginButton(
+    {BuildContext? context,
+    String? buttonName,
+    bool? status = false,
+    VoidCallback? tap}) {
   return GestureDetector(
-    onTap: (){
-      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> HomePage()));
-
-    },
+    onTap: status == true ? null : tap,
     child: Container(
       width: 325.w,
       height: 50.h,
-      margin: EdgeInsets.only(left: 25.w, right: 25.w, top: buttonType=="login"?20.h:10.h),
+      margin: EdgeInsets.only(left: 20.h),
       decoration: BoxDecoration(
-          color: buttonType=="login"
-              ?AppColors.primaryElement
-              :AppColors.primaryBackground,
+          color: status == false
+              ? AppColors.primaryElement
+              : AppColors.primarySecondaryElementText,
           borderRadius: BorderRadius.circular(15.w),
-          border: Border.all(
-            color: buttonType=="login"
-                ?Colors.white
-                :AppColors.primaryFourthElementText,
-          ),
+          border: Border.all(color: Colors.white),
           boxShadow: [
             BoxShadow(
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 1),
-                color: Colors.grey.withOpacity(0.1)
-            )
-          ]
-
-      ),
-      child: Center(child: Text(
-        buttonName,
-        style: TextStyle(
-          fontSize: 16.sp,
-          fontWeight: FontWeight.normal,
-          color: buttonType=="login"
-              ?AppColors.primaryBackground
-              :AppColors.primaryText,
+                color: Colors.grey.withOpacity(0.1))
+          ]),
+      child: Center(
+        child: Text(
+          status == false ? buttonName! : 'Please wait...',
+          style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.normal,
+              color: AppColors.primaryBackground),
         ),
-      ),
       ),
     ),
   );

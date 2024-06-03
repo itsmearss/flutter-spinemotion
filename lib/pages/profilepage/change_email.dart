@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../registerpage/widgets/register_page_widgets.dart';
 
-
 class ChangeEmailPage extends StatefulWidget {
   @override
   _ChangeEmailPageState createState() => _ChangeEmailPageState();
@@ -38,7 +37,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
-              buildTextField("Enter your email adress", "email", "email"),
+              // buildTextField("Enter your email adress", "email", "email"),
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () {
@@ -49,8 +48,9 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(59, 120, 138, 1),
-                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  backgroundColor: Color.fromRGBO(59, 120, 138, 1),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                 ),
                 child: Text(
                   'Change',

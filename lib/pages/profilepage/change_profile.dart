@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../registerpage/widgets/register_page_widgets.dart';
 
-
 class ChangeProfilePage extends StatefulWidget {
   @override
   _ChangeProfilePageState createState() => _ChangeProfilePageState();
@@ -38,14 +37,14 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
-              buildTextField("Enter your full name", "email", "user"),
+              // buildTextField("Enter your full name", "email", "user"),
               SizedBox(height: 16.0),
               Text(
                 'No Handphone',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8.0),
-              buildTextField("Enter your phone number", "email", "phone"),
+              // buildTextField("Enter your phone number", "email", "phone"),
               SizedBox(height: 32.0),
               ElevatedButton(
                 onPressed: () {
@@ -56,8 +55,9 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(59, 120, 138, 1),
-                  padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  backgroundColor: Color.fromRGBO(59, 120, 138, 1),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
                 ),
                 child: Text(
                   'Change',

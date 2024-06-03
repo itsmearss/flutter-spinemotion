@@ -82,7 +82,7 @@ class ExerciseDetailsPage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(59, 120, 138, 0.7),
+                  backgroundColor: Color.fromRGBO(59, 120, 138, 0.7),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -186,7 +186,7 @@ class SeatedAngels extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(59, 120, 138, 0.7),
+                  backgroundColor: Color.fromRGBO(59, 120, 138, 0.7),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),

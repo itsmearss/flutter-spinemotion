@@ -41,7 +41,7 @@ Widget boxInfo(BuildContext context) {
                           ),
                         ),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ProfilePage()));
                           },
@@ -52,8 +52,8 @@ Widget boxInfo(BuildContext context) {
                                 borderRadius: BorderRadius.circular(15),
                                 color: term.boxInfoPrimary,
                                 image: DecorationImage(
-                                    image:
-                                        AssetImage("assets/images/ryujink.jpg"))),
+                                    image: AssetImage(
+                                        "assets/images/ryujink.jpg"))),
                           ),
                         )
                       ],
@@ -243,8 +243,8 @@ Widget menuOption(BuildContext context) {
                           },
                           child: Text('Mulai !'),
                           style: ElevatedButton.styleFrom(
-                            primary: Colors.grey[600],
-                            onPrimary: Colors.white,
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.grey[600],
                             padding: EdgeInsets.symmetric(
                                 vertical: 48, horizontal: 40),
                             shape: CircleBorder(),
@@ -378,7 +378,7 @@ Widget boxStartTerapi(BuildContext context) {
                             builder: (context) => TerapiPage()));
                       },
                       style: ElevatedButton.styleFrom(
-                        primary: term.boxInfoColor.withOpacity(0.8),
+                        backgroundColor: term.boxInfoColor.withOpacity(0.8),
                         shadowColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13.0),
@@ -457,13 +457,12 @@ Widget boxStartTerapi(BuildContext context) {
 
 Widget textRecent() {
   return Container(
-
     margin: EdgeInsets.only(top: 515.h, left: 20.w),
     child: Text("Recent Workouts",
         style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 17,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontSize: 17,
           shadows: [
             Shadow(
               offset: Offset(1, 1), // Shadow tidak bergeser
@@ -471,7 +470,6 @@ Widget textRecent() {
               blurRadius: 5, // Menambahkan blur untuk membuat efek lebih halus
             ),
           ],
-
         )),
   );
 }
