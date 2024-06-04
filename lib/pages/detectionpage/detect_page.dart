@@ -7,6 +7,8 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:spinemotion_app/utils/api_endpoints.dart';
+
 class DetectPage extends StatefulWidget {
   final String selectedPose;
 
@@ -26,6 +28,8 @@ class _DetectPageState extends State<DetectPage> {
   double probability = 0.0;
   bool showImage = false;
   bool isConnected = false; // Tambahkan variabel ini
+
+  String baseUrl = ApiEndPoints.baseUrl;
 
   @override
   void initState() {
@@ -56,7 +60,8 @@ class _DetectPageState extends State<DetectPage> {
 
   void connectToServer() {
     // Ganti 'http://your-flask-server-url' dengan URL server Flask Anda
-    socket = IO.io('https://3a88-103-166-147-253.ngrok-free.app', <String, dynamic>{
+    socket =
+        IO.io('https://f07d-103-166-147-253.ngrok-free.app', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -124,21 +129,21 @@ class _DetectPageState extends State<DetectPage> {
           Center(
             child: isConnected
                 ? (showImage
-                ? _imageBytes != null
-                ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: Image.memory(
-                _imageBytes!,
-                fit: BoxFit.cover,
-              ),
-            )
-                : CircularProgressIndicator()
-                : _controller.value.isInitialized
-                ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: CameraPreview(_controller),
-            )
-                : CircularProgressIndicator())
+                    ? _imageBytes != null
+                        ? AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: Image.memory(
+                              _imageBytes!,
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : CircularProgressIndicator()
+                    : _controller.value.isInitialized
+                        ? AspectRatio(
+                            aspectRatio: _controller.value.aspectRatio,
+                            child: CameraPreview(_controller),
+                          )
+                        : CircularProgressIndicator())
                 : CircularProgressIndicator(), // Tampilkan loading saat belum terhubung
           ),
           if (isConnected)
@@ -205,6 +210,6 @@ class _DetectPageState extends State<DetectPage> {
         // Kirim gambar ke server menggunakan Socket.IO
         socket.emit('image', base64Image);
       }
-      });
-    }
+    });
+  }
 }

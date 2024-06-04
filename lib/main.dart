@@ -9,6 +9,7 @@ import 'package:spinemotion_app/pages/terapipage/terapi_page.dart';
 import 'package:spinemotion_app/pages/trytry.dart';
 import 'package:spinemotion_app/pages/welcomepage/welcome.dart';
 import 'package:spinemotion_app/provider/login_provider.dart';
+import 'package:spinemotion_app/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       providers: [ChangeNotifierProvider(create: (_) => LoginProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Welcome(),
+        home: SplashScreen(),
         routes: {
           "frontPage": (context) => const FrontPage(),
           "signIn": (context) => const LoginPage(),

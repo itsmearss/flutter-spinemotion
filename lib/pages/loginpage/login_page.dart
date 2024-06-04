@@ -26,77 +26,82 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginProvider(),
-      child: Consumer<LoginProvider>(builder: (context, value, child) {
-        WidgetsBinding.instance!.addPostFrameCallback((_) {
-          if (value.resMessage != "") {
-            showMessage(
-              message: value.resMessage,
-              context: context,
-            );
+    return ScreenUtilInit(
+      designSize: Size(360, 690),
+      builder: (context, child) => MaterialApp(
+        home: ChangeNotifierProvider(
+          create: (_) => LoginProvider(),
+          child: Consumer<LoginProvider>(builder: (context, value, child) {
+            WidgetsBinding.instance!.addPostFrameCallback((_) {
+              if (value.resMessage != "") {
+                showMessage(
+                  message: value.resMessage,
+                  context: context,
+                );
 
-            value.clear();
-          }
-        });
-        return Container(
-          color: Colors.white,
-          child: SafeArea(
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              appBar: buildAppBar("Login"),
-              body: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    buildIllustration(context, "exercise"),
-                    Container(
-                      margin: EdgeInsets.only(top: 36.h),
-                      padding: EdgeInsets.only(left: 25.w, right: 25.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          reusableText("Email"),
-                          SizedBox(
-                            height: 5.h,
+                value.clear();
+              }
+            });
+            return Container(
+              color: Colors.white,
+              child: SafeArea(
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: buildAppBar("Login"),
+                  body: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        buildIllustration(context, "exercise"),
+                        Container(
+                          margin: EdgeInsets.only(top: 36.h),
+                          padding: EdgeInsets.only(left: 25.w, right: 25.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              reusableText("Email"),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              buildTextField("Enter your email adress", "email",
+                                  "email", _email),
+                              reusableText("Password"),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              buildTextField("Enter your password", "email",
+                                  "lock", _password)
+                            ],
                           ),
-                          buildTextField("Enter your email adress", "email",
-                              "email", _email),
-                          reusableText("Password"),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          buildTextField(
-                              "Enter your password", "email", "lock", _password)
-                        ],
-                      ),
+                        ),
+                        forgotPassword(context),
+                        buildLoginButton(
+                          context: context,
+                          buttonName: "Login",
+                          status: value.isLoading,
+                          tap: () {
+                            if (_email.text.isEmpty || _password.text.isEmpty) {
+                              showMessage(
+                                  message: "All fields are required",
+                                  context: context);
+                            } else {
+                              value.loginUser(
+                                  email: _email.text.trim(),
+                                  password: _password.text.trim(),
+                                  context: context);
+                            }
+                          },
+                        ),
+                        // buildLogInAndRegisterButton("Register", "register")
+                      ],
                     ),
-                    forgotPassword(context),
-                    buildLoginButton(
-                      context: context,
-                      buttonName: "Login",
-                      status: value.isLoading,
-                      tap: () {
-                        if (_email.text.isEmpty || _password.text.isEmpty) {
-                          showMessage(
-                              message: "All fields are required",
-                              context: context);
-                        } else {
-                          value.loginUser(
-                              email: _email.text.trim(),
-                              password: _password.text.trim(),
-                              context: context);
-                        }
-                      },
-                    ),
-                    // buildLogInAndRegisterButton("Register", "register")
-                  ],
+                  ),
                 ),
               ),
-            ),
-          ),
-        );
-      }),
+            );
+          }),
+        ),
+      ),
     );
   }
 }

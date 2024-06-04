@@ -15,6 +15,7 @@ class Welcome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+      designSize: Size(360, 690),
       builder: (context, child) {
         return MaterialApp(
           home: ChangeNotifierProvider(
@@ -89,78 +90,80 @@ class Welcome extends StatelessWidget {
     );
   }
 
-  Widget _page(int index, BuildContext context, String buttonName, String title, String subTitle, String imagePath) {
+  Widget _page(int index, BuildContext context, String buttonName, String title,
+      String subTitle, String imagePath) {
     return Column(
-        children: [
-          SizedBox(
-            width: 345.w,
-            height: 345.w,
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.cover,
-            ),
+      children: [
+        SizedBox(
+          width: 345.w,
+          height: 345.w,
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
           ),
-          Text(
-            title,
+        ),
+        Text(
+          title,
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24.sp,
+            fontWeight: FontWeight.normal,
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.only(left: 30.w, right: 30.w),
+          child: Text(
+            subTitle,
             style: TextStyle(
-              color: Colors.black,
-              fontSize: 24.sp,
+              color: AppColors.primarySecondaryElementText,
+              fontSize: 14.sp,
               fontWeight: FontWeight.normal,
             ),
           ),
-          Container(
-            padding: EdgeInsets.only(left: 30.w, right: 30.w),
-            child: Text(
-              subTitle,
-              style: TextStyle(
-                color: AppColors.primarySecondaryElementText,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.normal,
-              ),
+        ),
+        GestureDetector(
+          onTap: () {
+            if (index < 2) {
+              pageController.animateToPage(
+                index + 1,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeIn,
+              );
+            } else {
+              // Navigator.of(context).pushNamedAndRemoveUntil("frontPage", (route) => false);
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const FrontPage()));
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.only(top: 100.h, left: 25.w, right: 25.w),
+            width: 325.w,
+            height: 50.h,
+            decoration: BoxDecoration(
+              color: AppColors.primaryElement,
+              borderRadius: BorderRadius.all(Radius.circular(15.w)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: const Offset(0, 1),
+                ),
+              ],
             ),
-          ),
-          GestureDetector(
-            onTap: () {
-              if (index < 2) {
-                pageController.animateToPage(
-                  index + 1,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeIn,
-                );
-              } else {
-                // Navigator.of(context).pushNamedAndRemoveUntil("frontPage", (route) => false);
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const FrontPage()));
-              }
-            },
-            child: Container(
-              margin: EdgeInsets.only(top: 100.h, left: 25.w, right: 25.w),
-              width: 325.w,
-              height: 50.h,
-              decoration: BoxDecoration(
-                color: AppColors.primaryElement,
-                borderRadius: BorderRadius.all(Radius.circular(15.w)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 2,
-                    offset: const Offset(0, 1),
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  buttonName,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.normal,
-                  ),
+            child: Center(
+              child: Text(
+                buttonName,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
             ),
           ),
-        ],
+        ),
+      ],
     );
   }
 }

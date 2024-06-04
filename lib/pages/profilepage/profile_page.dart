@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spinemotion_app/pages/profilepage/change_email.dart';
 import 'package:spinemotion_app/pages/profilepage/change_profile.dart';
+import 'package:spinemotion_app/provider/database_provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -15,6 +16,14 @@ class ProfilePage extends StatelessWidget {
               Navigator.pop(context); // Kembali ke halaman sebelumnya
             },
           ),
+          actions: [
+            IconButton(
+              onPressed: () {
+                DatabaseProvider().logOut(context);
+              },
+              icon: const Icon(Icons.exit_to_app),
+            )
+          ],
         ),
         body: Center(
           child: Column(
@@ -69,26 +78,34 @@ class ProfilePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(165, 189, 195, 1),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       textStyle: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Text('Change Email', style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Change Email',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(165, 189, 195, 1),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       textStyle: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Text('Change Password', style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Change Password',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
@@ -98,13 +115,17 @@ class ProfilePage extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color.fromRGBO(165, 189, 195, 1),
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                       textStyle: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    child: Text('Change Profile', style: TextStyle(color: Colors.white),),
+                    child: Text(
+                      'Change Profile',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),
