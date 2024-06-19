@@ -7,8 +7,6 @@ import 'package:spinemotion_app/pages/homepage/theme_provider.dart';
 import '../homepage/widgets/home_page_widgets.dart';
 
 class HomePage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     final List<String> imagePaths = [
@@ -16,16 +14,11 @@ class HomePage extends StatelessWidget {
       'assets/images/chest-open.png',
       'assets/images/cobra-pose.png',
     ];
-    final List<String> pose = [
-      "Bridge Pose",
-      "Chest Open",
-      "Cobra Pose"
-    ];
+    final List<String> pose = ["Bridge Pose", "Chest Open", "Cobra Pose"];
 
     return ScreenUtilInit(
       designSize: Size(360, 690),
-        builder: (context, child) =>
-            MaterialApp(
+      builder: (context, child) => MaterialApp(
         home: ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
           child: Scaffold(
@@ -63,22 +56,6 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     margin: EdgeInsets.only(top: 450.h),
-                //     height: 250,
-                //     child: ListView(
-                //       scrollDirection: Axis.horizontal,
-                //       padding: EdgeInsets.symmetric(horizontal: 10),
-                //       children: [
-                //         articleList(title: 'Yoga Isolated', imageUrl: 'https://o-cdn-cas.sirclocdn.com/parenting/images/yoga-ashtanga.width-800.format-webp.webp', duration: '13 min', calories: '312 cal'),
-                //         articleList(title: 'Inner Healing Therapy', imageUrl: 'https://o-cdn-cas.sirclocdn.com/parenting/images/yoga-ashtanga.width-800.format-webp.webp', duration: '15 min', calories: '290 cal'),
-                //         // Add more articles as needed
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

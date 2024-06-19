@@ -9,6 +9,8 @@ import 'package:spinemotion_app/pages/terapipage/terapi_page.dart';
 import 'package:spinemotion_app/pages/trytry.dart';
 import 'package:spinemotion_app/pages/welcomepage/welcome.dart';
 import 'package:spinemotion_app/provider/login_provider.dart';
+import 'package:spinemotion_app/provider/profile_provider.dart';
+import 'package:spinemotion_app/provider/register_provider.dart';
 import 'package:spinemotion_app/splash.dart';
 
 void main() {
@@ -26,7 +28,11 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => LoginProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => LoginProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()),
+        ChangeNotifierProvider(create: (_) => RegisterProvider())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: SplashScreen(),

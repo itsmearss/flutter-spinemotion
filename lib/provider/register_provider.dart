@@ -42,6 +42,7 @@ class RegisterProvider extends ChangeNotifier {
 
     try {
       Map<String, String> headers = {'Content-Type': 'application/json'};
+
       http.Response req = await http.post(
         Uri.parse(url),
         headers: headers,

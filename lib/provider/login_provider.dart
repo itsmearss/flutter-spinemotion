@@ -57,7 +57,8 @@ class LoginProvider extends ChangeNotifier {
         DatabaseProvider().saveToken(token);
         print(token);
         print(userId);
-        PageNavigator(ctx: context).nextPageOnly(page: HomePage());
+        await Future.delayed(Duration(milliseconds: 500));
+        PageNavigator(ctx: context).nextPage(page: HomePage());
       } else {
         final res = jsonDecode(req.body);
 

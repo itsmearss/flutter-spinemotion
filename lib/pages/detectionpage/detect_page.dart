@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:spinemotion_app/provider/database_provider.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
@@ -28,6 +29,7 @@ class _DetectPageState extends State<DetectPage> {
   double probability = 0.0;
   bool showImage = false;
   bool isConnected = false; // Tambahkan variabel ini
+  late String userId;
 
   String baseUrl = ApiEndPoints.baseUrl;
 
@@ -40,7 +42,7 @@ class _DetectPageState extends State<DetectPage> {
       DeviceOrientation.landscapeLeft,
     ]);
     initializeCamera();
-    connectToServer();
+    _getUserIdAndConnect();
   }
 
   @override
@@ -58,10 +60,17 @@ class _DetectPageState extends State<DetectPage> {
     super.dispose();
   }
 
-  void connectToServer() {
+  Future<void> _getUserIdAndConnect() async {
+    final id = await DatabaseProvider().getUserId();
+    setState(() {
+      userId = id;
+    });
+    connectToServer();
+  }
+
+  void connectToServer() async {
     // Ganti 'http://your-flask-server-url' dengan URL server Flask Anda
-    socket =
-        IO.io('https://f07d-103-166-147-253.ngrok-free.app', <String, dynamic>{
+    socket = IO.io(ApiEndPoints.baseUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -207,8 +216,13 @@ class _DetectPageState extends State<DetectPage> {
         final List<int> imageBytes = await imageFile.readAsBytes();
         // Encode bytes ke base64
         final String base64Image = base64Encode(imageBytes);
+
         // Kirim gambar ke server menggunakan Socket.IO
-        socket.emit('image', base64Image);
+        socket.emit('image', {
+          'image_data': base64Image,
+          'userId': userId,
+          'selected_pose': widget.selectedPose,
+        });
       }
     });
   }

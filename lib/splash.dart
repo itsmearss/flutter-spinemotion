@@ -1,9 +1,7 @@
 // ignore_for_file: camel_case_types, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-import 'package:spinemotion_app/pages/frontpage/front_page.dart';
 import 'package:spinemotion_app/pages/homepage/home_page.dart';
-import 'package:spinemotion_app/pages/loginpage/login_page.dart';
 import 'package:spinemotion_app/pages/welcomepage/welcome.dart';
 import 'package:spinemotion_app/provider/database_provider.dart';
 import 'package:spinemotion_app/utils/routers.dart';

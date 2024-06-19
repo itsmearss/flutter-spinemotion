@@ -1,5 +1,5 @@
 class ApiEndPoints {
-  static final String baseUrl = 'https://f07d-103-166-147-253.ngrok-free.app';
+  static final String baseUrl = 'https://c342-103-166-147-253.ngrok-free.app';
   static _AuthEndPoints authEndpoints = _AuthEndPoints();
 }
 
