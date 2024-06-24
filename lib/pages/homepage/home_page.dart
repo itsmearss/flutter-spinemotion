@@ -5,17 +5,12 @@ import 'package:provider/provider.dart';
 import 'package:spinemotion_app/pages/homepage/theme_provider.dart';
 
 import '../homepage/widgets/home_page_widgets.dart';
+import '../homepage/widgets/calendar.dart';
+import '../homepage/calendar_provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final List<String> imagePaths = [
-      'assets/images/bridge-pose.png',
-      'assets/images/chest-open.png',
-      'assets/images/cobra-pose.png',
-    ];
-    final List<String> pose = ["Bridge Pose", "Chest Open", "Cobra Pose"];
-
     return ScreenUtilInit(
       designSize: Size(360, 690),
       builder: (context, child) => MaterialApp(
@@ -30,33 +25,32 @@ class HomePage extends StatelessWidget {
                 boxInfo(context),
                 buttonTheme(context),
                 boxStartTerapi(context),
-                textRecent(),
-                Positioned(
-                  top: 545.h,
-                  left: 0,
-                  right: 0,
-                  bottom: 19.h,
-                  child: Container(
-                    height: 200,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      padding: EdgeInsets.symmetric(horizontal: 10),
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 10),
-                          child: recentWorkouts(
-                            title: pose[index],
-                            duration: "12 min",
-                            calories: "12 cal",
-                            imagePath: imagePaths[index],
-                            onPressed: () {},
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                // Positioned(
+                //   bottom: 165.h,
+                //   left: 12.w,
+                //   right: 12.w,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(top: 16.0),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children:
+                //         List.generate(
+                //           7,
+                //           (index) => ScheduleTerapi(day: "Mo", selectDate: _selectDateNotifier, onTap: (){
+                //             _selectDateNotifier.value = !_selectDateNotifier.value;
+                //           },),
+                //         ),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(
+                  height: 20.h,
                 ),
+                Positioned(
+                    bottom: 23.h,
+                    left: 12.w,
+                    right: 12.w,
+                    child: boxMenu(context, "W")),
               ],
             ),
           ),

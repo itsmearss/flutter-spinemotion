@@ -1,98 +1,112 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
-import 'package:spinemotion_app/pages/homepage/theme_provider.dart';
+import 'package:spinemotion_app/pages/terapipage/terapi_model.dart';
+import 'package:spinemotion_app/pages/terapipage/widgets/terapi_page_widgets.dart';
 
-import '../homepage/widgets/home_page_widgets.dart';
-import '../startgerakan/start_gerakan.dart';
+import '../homepage/widgets/calendar.dart';
 
 class TerapiPage extends StatelessWidget {
+  final ValueNotifier<bool> _selectDateNotifier = ValueNotifier<bool>(true);
+
   @override
   Widget build(BuildContext context) {
-    final List<String> imagePaths = [
-      'assets/images/bridge-pose.png',
-      'assets/images/chest-open.png',
-      'assets/images/cobra-pose.png',
-      'assets/images/seated-wall.png',
-      'assets/images/bridge-pose.png',
-      'assets/images/chest-open.png',
-      'assets/images/cobra-pose.png',
-      'assets/images/chest-open.png',
-      'assets/images/bridge-pose.png',
-    ];
-    final List<String> pose = [
-      "Bridge Pose",
-      "Chest Open",
-      "Cobra Pose",
-      "Seated Wall",
-      "Cobra Pose",
-      "Bridge Pose",
-      "Chest Open",
-      "Bridge Pose",
-    ];
-
-    return ScreenUtilInit(
-      designSize: Size(360, 690),
-      builder: (context, child) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: ChangeNotifierProvider(
-          create: (context) => ThemeProvider(),
-          child: Scaffold(
-            backgroundColor: Color.fromRGBO(165, 189, 195, 1),
-            appBar: AppBar(
-              backgroundColor: Color.fromRGBO(59, 120, 138, 0.7),
-              title: Text('Terapi Gerakan'),
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              actions: [
-                IconButton(
-                  icon: Icon(Icons.favorite_border),
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            body: Stack(
-              children: [
-                Positioned(
-                  top: 10.h,
-                  left: 0,
-                  right: 0,
-                  bottom: 19.h,
-                  child: Container(
-                    height: 100,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      padding:
-                          EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-                      itemCount: 8,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: recentWorkouts(
-                            title: pose[index],
-                            duration: "12 min",
-                            calories: "12 cal",
-                            imagePath: imagePaths[index],
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => SeatedAngels()));
-                            },
-                          ),
-                        );
-                      },
-                    ),
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(201, 218, 223, 1),
+      appBar: buildAppBar(),
+      body: ListView(children: [
+        Container(
+          padding: EdgeInsets.all(10.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(
+                  7,
+                  (index) => ScheduleTerapi(
+                    day: "Mo",
+                    selectDate: _selectDateNotifier,
+                    onTap: () {
+                      _selectDateNotifier.value = !_selectDateNotifier.value;
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 20.h), // Spacer for visual separation
+              ListView(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  buildGerakanItem(
+                    context,
+                    title: 'BRIDGE POSE',
+                    description:
+                        'Bridge Pose dapat memperkuat otot-otot punggung dan gluteus, meningkatkan fleksibilitas tulang belakang.',
+                    imagePath: 'assets/images/bridge_pose.png',
+                    targetPage: BridgePosePage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'CHEST OPENER STRETCH',
+                    description:
+                        'Chest opener stretch membantu meningkatkan fleksibilitas, mengurangi ketegangan, serta mengoreksi postur bahu yang bungkuk.',
+                    imagePath: 'assets/images/cobra_pose.png',
+                    targetPage: ChestOpenerStretchPage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'COBRA POSE',
+                    description:
+                        'Gerakan Cobra Pose dapat memperkuat otot punggung bagian bawah, meningkatkan fleksibilitas tulang belakang.',
+                    imagePath: 'assets/images/cobra_pose.png',
+                    targetPage: CobraPosePage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'MOUNTAIN POSE',
+                    description:
+                        'Mountain Pose dapat meningkatkan keseimbangan dan postur tubuh.',
+                    imagePath: 'assets/images/bridge_pose.png',
+                    targetPage: MountainPosePage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'PUSH UP TO DOWN DOG',
+                    description:
+                        'Push up to Down Dog dapat meningkatkan kekuatan dan fleksibilitas tubuh bagian atas dan bawah.',
+                    imagePath: 'assets/images/cobra_pose.png',
+                    targetPage: PushUpToDownDogPage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'SEATED WALL ANGELS',
+                    description:
+                        'Seated Wall Angels membantu memperbaiki postur dan meningkatkan fleksibilitas bahu.',
+                    imagePath: 'assets/images/bridge_pose.png',
+                    targetPage: SeatedWallAngelsPage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'TABLE TOP LIFT',
+                    description:
+                        'Table Top Lift dapat memperkuat otot inti dan punggung.',
+                    imagePath: 'assets/images/cobra_pose.png',
+                    targetPage: TableTopLiftPage(),
+                  ),
+                  buildGerakanItem(
+                    context,
+                    title: 'WARRIOR POSE',
+                    description:
+                        'Warrior Pose dapat meningkatkan kekuatan dan daya tahan pada kaki serta meningkatkan keseimbangan.',
+                    imagePath: 'assets/images/bridge_pose.png',
+                    targetPage: WarriorPosePage(),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-      ),
+      ]),
     );
   }
 }
