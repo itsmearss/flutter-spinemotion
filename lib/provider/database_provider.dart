@@ -7,11 +7,9 @@ class DatabaseProvider extends ChangeNotifier {
   final Future<SharedPreferences> _pref = SharedPreferences.getInstance();
 
   String _token = '';
-
   String _userId = '';
 
   String get token => _token;
-
   String get userId => _userId;
 
   void saveToken(String token) async {

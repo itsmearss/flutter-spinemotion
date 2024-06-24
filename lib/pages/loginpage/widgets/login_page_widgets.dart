@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:spinemotion_app/pages/forgotpassword/forgot_password.dart';
+import 'package:spinemotion_app/pages/frontpage/front_page.dart';
 import 'package:spinemotion_app/pages/homepage/home_page.dart';
 import 'package:spinemotion_app/utils/routers.dart';
 
 import '../../../common/values/colors.dart';
 
-AppBar buildAppBar(String? name) {
+AppBar buildAppBar(BuildContext context, String? name) {
   return AppBar(
+    backgroundColor: AppColors.primaryElement,
+    leading: IconButton(
+      icon: Icon(
+        Icons.arrow_back,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        PageNavigator(ctx: context).nextPageOnly(page: FrontPage());
+      },
+    ),
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(1.0),
       child: Container(
@@ -19,9 +31,7 @@ AppBar buildAppBar(String? name) {
     title: Text(
       name!,
       style: TextStyle(
-          color: AppColors.primaryText,
-          fontSize: 16.sp,
-          fontWeight: FontWeight.normal),
+          color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w500),
     ),
   );
 }
@@ -122,7 +132,7 @@ Widget forgotPassword(BuildContext? context) {
         PageNavigator(ctx: context).nextPageOnly(page: ForgotPasswordPage());
       },
       child: Text(
-        "Forgot Password",
+        "Lupa Password",
         style: TextStyle(
             color: AppColors.primaryElement,
             decoration: TextDecoration.underline,
@@ -159,7 +169,7 @@ Widget buildLoginButton(
           ]),
       child: Center(
         child: Text(
-          status == false ? buttonName! : 'Please wait...',
+          status == false ? buttonName! : 'Mohon tunggu...',
           style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.normal,

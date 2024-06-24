@@ -9,14 +9,17 @@ import 'package:spinemotion_app/utils/routers.dart';
 
 class RegisterProvider extends ChangeNotifier {
   String requestBaseUrl = ApiEndPoints.baseUrl;
+  String apiKey = ApiEndPoints.apiKey;
 
   // Setter
   bool _isLoading = false;
   String _resMessage = '';
+  List<String> _genders = ["Laki-laki", "Perempuan"];
 
   // Getter
   bool get isLoading => _isLoading;
   String get resMessage => _resMessage;
+  List<String> get genders => _genders;
 
   void registerUser(
       {required String fullname,
@@ -24,24 +27,29 @@ class RegisterProvider extends ChangeNotifier {
       required String noHp,
       required String password,
       required String confirmPassword,
+      required String gender,
       BuildContext? context}) async {
     _isLoading = true;
     notifyListeners();
 
-    String url = "$requestBaseUrl/user/register";
+    String url = "$requestBaseUrl/auth/register";
 
     final body = {
       "fullname": fullname,
       "email": email,
       "no_hp": noHp,
       "password": password,
-      "confirm_password": confirmPassword
+      "confirm_password": confirmPassword,
+      "gender": gender
     };
 
     print(jsonEncode(body));
 
     try {
-      Map<String, String> headers = {'Content-Type': 'application/json'};
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+      };
 
       http.Response req = await http.post(
         Uri.parse(url),

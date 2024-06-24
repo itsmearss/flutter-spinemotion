@@ -11,6 +11,7 @@ class ProfileProvider extends ChangeNotifier {
     fetchProfile();
   }
   final _url = ApiEndPoints.baseUrl;
+  final apiKey = ApiEndPoints.apiKey;
 
   ProfileModel? _profile;
   bool _isLoading = false;
@@ -27,17 +28,21 @@ class ProfileProvider extends ChangeNotifier {
 
     final token = await DatabaseProvider().getToken();
     print(token);
-    String url = "$_url/user/current";
+    String url = "$_url/user/profile";
 
     try {
       final response = await http.get(
         Uri.parse(url),
-        headers: {'Authorization': 'Bearer $token'},
+        headers: {
+          'Authorization': 'Bearer $token',
+          'x-api-key': apiKey,
+        },
       );
 
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
+        // print(response.body);
         _profile = profileModelFromJson(response.body);
+        print(_profile!);
         notifyListeners();
       } else {
         _resMessage = 'Failed to load profile';

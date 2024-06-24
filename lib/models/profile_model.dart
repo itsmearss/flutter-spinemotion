@@ -10,52 +10,52 @@ ProfileModel profileModelFromJson(String str) =>
 String profileModelToJson(ProfileModel data) => json.encode(data.toJson());
 
 class ProfileModel {
-  String? status;
-  Data? data;
+  Data data;
+  String message;
 
   ProfileModel({
-    this.status,
-    this.data,
+    required this.data,
+    required this.message,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
-        status: json["status"],
         data: Data.fromJson(json["data"]),
+        message: json["message"],
       );
 
   Map<String, dynamic> toJson() => {
-        "status": status,
-        "data": data?.toJson(),
+        "data": data.toJson(),
+        "message": message,
       };
 }
 
 class Data {
-  int? id;
-  String? fullname;
-  String? email;
-  String? noHp;
-  String? photo;
+  String email;
+  String fullname;
+  String id;
+  String noHp;
+  String photo;
 
   Data({
-    this.id,
-    this.fullname,
-    this.email,
-    this.noHp,
-    this.photo,
+    required this.email,
+    required this.fullname,
+    required this.id,
+    required this.noHp,
+    required this.photo,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
-        fullname: json["fullname"],
         email: json["email"],
+        fullname: json["fullname"],
+        id: json["id"],
         noHp: json["no_hp"],
         photo: json["photo"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "fullname": fullname,
         "email": email,
+        "fullname": fullname,
+        "id": id,
         "no_hp": noHp,
         "photo": photo,
       };

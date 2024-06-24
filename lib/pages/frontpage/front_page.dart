@@ -24,8 +24,8 @@ class FrontPage extends StatelessWidget {
                 SizedBox(
                   height: 50.h,
                 ),
-                buildTwoButton(context, "Create Your New Account", "signUp"),
-                buildTwoButton(context, "Sign in to Your Account", "signIn")
+                buildTwoButton(context, "Buat akun baru", "signUp"),
+                buildTwoButton(context, "Masuk, sudah punya akun", "signIn")
               ])))
     ]);
   }

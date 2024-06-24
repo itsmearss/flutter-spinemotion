@@ -16,20 +16,19 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-        home: ChangeNotifierProvider<ApplicationColor>(
-          create: (context) => ApplicationColor(),
-          child: Scaffold(
-                appBar: buildAppBar(),
-                body: Container(
-          margin: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              buttonLamp()
-            ],
+      debugShowCheckedModeBanner: false,
+      home: ChangeNotifierProvider<ApplicationColor>(
+        create: (context) => ApplicationColor(),
+        child: Scaffold(
+          appBar: buildAppBar(),
+          body: Container(
+            margin: EdgeInsets.all(20),
+            child: Column(
+              children: [buttonLamp()],
+            ),
           ),
-                ),
-              ),
-        ),);
+        ),
+      ),
+    );
   }
 }

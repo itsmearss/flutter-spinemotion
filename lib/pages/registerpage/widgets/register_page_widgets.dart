@@ -3,28 +3,35 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:spinemotion_app/common/values/colors.dart';
+import 'package:spinemotion_app/pages/frontpage/front_page.dart';
 import 'package:spinemotion_app/pages/registerpage/provider/terms.dart';
 import 'package:spinemotion_app/pages/registerpage/widgets/syarat_ketentuan.dart';
+import 'package:spinemotion_app/utils/routers.dart';
 
 AppBar buildAppBar(BuildContext context, String title) {
   return AppBar(
+    backgroundColor: AppColors.primaryElement,
     leading: IconButton(
-      icon: Icon(Icons.arrow_back, color: Colors.black),
+      icon: Icon(
+        Icons.arrow_back,
+        color: Colors.white,
+      ),
       onPressed: () {
-        Navigator.of(context).pop();
+        PageNavigator(ctx: context).nextPageOnly(page: FrontPage());
       },
     ),
     bottom: PreferredSize(
       preferredSize: const Size.fromHeight(1.0),
       child: Container(
-        color: Colors.grey.withOpacity(0.5),
+        color: AppColors.primarySecondaryBackground,
+        // height define the thickness of the line
         height: 1.0,
       ),
     ),
     title: Text(
-      title,
+      title!,
       style: TextStyle(
-          color: Colors.black, fontSize: 16.sp, fontWeight: FontWeight.normal),
+          color: Colors.white, fontSize: 16.sp, fontWeight: FontWeight.w500),
     ),
   );
 }
@@ -51,7 +58,7 @@ Widget buildTextField(String hintText, String textType, String iconName,
     decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(15.w)),
-        border: Border.all(color: Colors.black)),
+        border: Border.all(color: AppColors.primaryFourthElementText)),
     child: Row(
       children: [
         Container(
@@ -105,7 +112,7 @@ Widget syaratKetentuan() {
       // width: 200.w,
       height: 25.h,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Transform.scale(
             scale: 0.7, // skala checkbox
@@ -153,7 +160,7 @@ Widget buildRegisterButton(
       height: 50.h,
       margin: EdgeInsets.only(left: 25.w, right: 25.w, top: 10.h),
       decoration: BoxDecoration(
-          color: status == false 
+          color: status == false
               ? Color.fromRGBO(59, 120, 138, 1)
               : AppColors.primarySecondaryElementText,
           borderRadius: BorderRadius.circular(15.w),
@@ -166,7 +173,7 @@ Widget buildRegisterButton(
           ]),
       child: Center(
         child: Text(
-          status == false ? buttonName! : "Please wait...",
+          status == false ? buttonName! : "Mohon tunggu...",
           style: TextStyle(
               fontSize: 16.sp,
               fontWeight: FontWeight.normal,

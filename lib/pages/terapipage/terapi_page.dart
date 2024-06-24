@@ -35,6 +35,7 @@ class TerapiPage extends StatelessWidget {
     return ScreenUtilInit(
       designSize: Size(360, 690),
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
           child: Scaffold(

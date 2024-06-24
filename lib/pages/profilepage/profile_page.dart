@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spinemotion_app/common/values/colors.dart';
+import 'package:spinemotion_app/pages/homepage/home_page.dart';
 import 'package:spinemotion_app/pages/profilepage/change_email.dart';
+import 'package:spinemotion_app/pages/profilepage/change_password.dart';
 import 'package:spinemotion_app/pages/profilepage/change_profile.dart';
+import 'package:spinemotion_app/pages/profilepage/perform_page.dart';
 import 'package:spinemotion_app/provider/database_provider.dart';
 import 'package:spinemotion_app/provider/profile_provider.dart';
+import 'package:spinemotion_app/utils/routers.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -19,17 +23,28 @@ class ProfilePage extends StatelessWidget {
             ),
           );
         } else {
+          print(value.profile!.data!);
           final imageProvider = (value.profile!.data!.photo != null)
               ? NetworkImage(value.profile!.data!.photo!)
               : AssetImage("assets/images/ryujink.jpg") as ImageProvider;
           // final data = value.profile!.data!;
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              title: Text('${value.profile!.data!.fullname}'),
+              backgroundColor: AppColors.primaryElement,
+              title: Text(
+                '${value.profile!.data!.fullname}',
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+              ),
               leading: IconButton(
-                icon: Icon(Icons.arrow_back),
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
                 onPressed: () {
-                  Navigator.pop(context); // Kembali ke halaman sebelumnya
+                  PageNavigator(ctx: context).nextPageOnly(page: HomePage());
+// Kembali ke halaman sebelumnya
                 },
               ),
               actions: [
@@ -37,7 +52,10 @@ class ProfilePage extends StatelessWidget {
                   onPressed: () {
                     DatabaseProvider().logOut(context);
                   },
-                  icon: const Icon(Icons.exit_to_app),
+                  icon: const Icon(
+                    Icons.exit_to_app,
+                    color: Colors.white,
+                  ),
                 )
               ],
             ),
@@ -58,9 +76,20 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30),
-                  Text(
-                    'Email',
-                    style: TextStyle(fontSize: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.email_outlined,
+                          size: 24, color: AppColors.primaryElement),
+                      SizedBox(width: 5),
+                      Text(
+                        'Email',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: AppColors.primaryElement,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 5),
                   Text(
@@ -71,9 +100,20 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
-                  Text(
-                    'No HP',
-                    style: TextStyle(fontSize: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.phone_iphone_outlined,
+                          size: 24, color: AppColors.primaryElement),
+                      SizedBox(width: 5),
+                      Text(
+                        'Nomor Handphone',
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: AppColors.primaryElement,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 5),
                   Text(
@@ -93,7 +133,11 @@ class ProfilePage extends StatelessWidget {
                               builder: (context) => ChangeEmailPage()));
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(165, 189, 195, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                8), // Ubah nilai 12 sesuai kebutuhan
+                          ),
+                          backgroundColor: AppColors.primaryElement,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           textStyle: TextStyle(
@@ -102,24 +146,7 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Change Email',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(165, 189, 195, 1),
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          textStyle: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        child: Text(
-                          'Change Password',
+                          'Ubah Email',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -127,10 +154,14 @@ class ProfilePage extends StatelessWidget {
                       ElevatedButton(
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => ChangeProfilePage()));
+                              builder: (context) => ChangePasswordPage()));
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(165, 189, 195, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                8), // Ubah nilai 12 sesuai kebutuhan
+                          ),
+                          backgroundColor: AppColors.primaryElement,
                           padding: EdgeInsets.symmetric(
                               horizontal: 20, vertical: 10),
                           textStyle: TextStyle(
@@ -139,7 +170,58 @@ class ProfilePage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Change Profile',
+                          'Ubah Password',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ChangeProfile(
+                                    name: value.profile!.data!.fullname,
+                                    noHP: value.profile!.data!.noHp,
+                                  )));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                8), // Ubah nilai 12 sesuai kebutuhan
+                          ),
+                          backgroundColor: AppColors.primaryElement,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          textStyle: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        child: Text(
+                          'Ubah Profil',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PerformPage()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                8), // Ubah nilai 12 sesuai kebutuhan
+                          ),
+                          backgroundColor: AppColors.primaryElement,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          textStyle: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        child: Text(
+                          'Performa Pengguna',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),

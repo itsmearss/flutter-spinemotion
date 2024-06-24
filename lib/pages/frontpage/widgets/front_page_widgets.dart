@@ -5,7 +5,7 @@ import 'package:spinemotion_app/pages/registerpage/register_page.dart';
 
 import '../../../common/values/colors.dart';
 
-Widget textFront(){
+Widget textFront() {
   return Column(
     children: [
       Container(
@@ -29,51 +29,51 @@ Widget textFront(){
   );
 }
 
-Widget buildTwoButton(BuildContext context, String buttonName, String buttonType){
+Widget buildTwoButton(
+    BuildContext context, String buttonName, String buttonType) {
   return GestureDetector(
-    onTap: (){
+    onTap: () {
       if (buttonType == "signUp") {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const RegisterPage()));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const RegisterPage()));
       } else if (buttonType == "signIn") {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const LoginPage()));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => const LoginPage()));
       }
-
-
     },
     child: Container(
       width: 325.w,
       height: 50.h,
-      margin: EdgeInsets.only(left: 25.w, right: 25.w, top: buttonType=="login"?20.h:10.h),
+      margin: EdgeInsets.only(
+          left: 25.w, right: 25.w, top: buttonType == "login" ? 20.h : 10.h),
       decoration: BoxDecoration(
-          color: buttonType=="login"
-              ?AppColors.primaryElement
-              :AppColors.primaryBackground,
+          color: buttonType == "login"
+              ? AppColors.primaryElement
+              : AppColors.primaryBackground,
           borderRadius: BorderRadius.circular(15.w),
           border: Border.all(
-            color: buttonType=="login"
-                ?Colors.transparent
-                :AppColors.primaryFourthElementText,
+            color: buttonType == "login"
+                ? Colors.transparent
+                : AppColors.primaryFourthElementText,
           ),
           boxShadow: [
             BoxShadow(
                 spreadRadius: 1,
                 blurRadius: 2,
                 offset: Offset(0, 1),
-                color: Colors.grey.withOpacity(0.1)
-            )
-          ]
-
-      ),
-      child: Center(child: Text(
-        buttonName,
-        style: TextStyle(
-          fontSize: 10.sp,
-          fontWeight: FontWeight.normal,
-          color: buttonType=="login"
-              ?AppColors.primaryBackground
-              :AppColors.primaryText,
+                color: Colors.grey.withOpacity(0.1))
+          ]),
+      child: Center(
+        child: Text(
+          buttonName,
+          style: TextStyle(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.normal,
+            color: buttonType == "login"
+                ? AppColors.primaryBackground
+                : AppColors.primaryText,
+          ),
         ),
-      ),
       ),
     ),
   );

@@ -10,6 +10,7 @@ import 'package:spinemotion_app/utils/routers.dart';
 
 class LoginProvider extends ChangeNotifier {
   String requestBaseUrl = ApiEndPoints.baseUrl;
+  String apiKey = ApiEndPoints.apiKey;
 
   // Setter
   bool _isLoading = false;
@@ -26,7 +27,11 @@ class LoginProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    String url = "$requestBaseUrl/user/login";
+    String url = "$requestBaseUrl/auth/login";
+
+    String credentials = "$email:$password";
+    List<int> bytes = utf8.encode(credentials);
+    String base64Credentials = base64Encode(bytes);
 
     final body = {
       "email": email,
@@ -36,18 +41,21 @@ class LoginProvider extends ChangeNotifier {
     print(body);
 
     try {
-      Map<String, String> headers = {'Content-Type': 'application/json'};
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'Authorization': 'Basic $base64Credentials'
+      };
 
       http.Response req = await http.post(
         Uri.parse(url),
         headers: headers,
-        body: jsonEncode(body),
       );
 
       if (req.statusCode == 200 || req.statusCode == 201) {
         final res = jsonDecode(req.body);
         _isLoading = false;
-        _resMessage = "Login successfull";
+        _resMessage = "Berhasil masuk";
         notifyListeners();
 
         // Save users data and then navigate to homepage
@@ -57,7 +65,7 @@ class LoginProvider extends ChangeNotifier {
         DatabaseProvider().saveToken(token);
         print(token);
         print(userId);
-        await Future.delayed(Duration(milliseconds: 500));
+        await Future.delayed(Duration(milliseconds: 300));
         PageNavigator(ctx: context).nextPage(page: HomePage());
       } else {
         final res = jsonDecode(req.body);
@@ -74,7 +82,7 @@ class LoginProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       _isLoading = false;
-      _resMessage = "Please try again";
+      _resMessage = "Coba lagi";
       notifyListeners();
     }
   }

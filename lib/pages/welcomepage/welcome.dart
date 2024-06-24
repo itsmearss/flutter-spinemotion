@@ -18,6 +18,7 @@ class Welcome extends StatelessWidget {
       designSize: Size(360, 690),
       builder: (context, child) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           home: ChangeNotifierProvider(
             create: (context) => WelcomeProvider(),
             child: Scaffold(

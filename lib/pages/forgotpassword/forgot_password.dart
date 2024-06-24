@@ -28,7 +28,7 @@ class ForgotPasswordPage extends StatelessWidget {
           });
           return Scaffold(
             backgroundColor: Colors.white,
-            appBar: buildAppBar("Forgot Password"),
+            appBar: buildAppBar(context, "Forgot Password"),
             body: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

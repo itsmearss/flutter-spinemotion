@@ -1,74 +1,114 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spinemotion_app/common/values/colors.dart';
+import 'package:spinemotion_app/pages/profilepage/profile_page.dart';
+import 'package:spinemotion_app/pages/registerpage/widgets/register_page_widgets.dart';
+import 'package:spinemotion_app/provider/change_profile_provider.dart';
+import 'package:spinemotion_app/utils/routers.dart';
+import 'package:spinemotion_app/utils/snack_message.dart';
 
-import '../registerpage/widgets/register_page_widgets.dart';
+class ChangeProfile extends StatefulWidget {
+  const ChangeProfile({Key? key, this.name, this.noHP}) : super(key: key);
 
-class ChangeProfilePage extends StatefulWidget {
+  final String? name;
+  final String? noHP;
+
   @override
-  _ChangeProfilePageState createState() => _ChangeProfilePageState();
+  State<ChangeProfile> createState() => _ChangeProfileState();
 }
 
-class _ChangeProfilePageState extends State<ChangeProfilePage> {
-  final _formKey = GlobalKey<FormState>();
-  final _fullNameController = TextEditingController();
-  final _phoneNumberController = TextEditingController();
+class _ChangeProfileState extends State<ChangeProfile> {
+  final _name = TextEditingController();
+  final _no_hp = TextEditingController();
 
   @override
-  void dispose() {
-    _fullNameController.dispose();
-    _phoneNumberController.dispose();
-    super.dispose();
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    setState(() {
+      _name.text = widget.name!;
+      _no_hp.text = widget.noHP!;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Change Profile'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Nama Lengkap',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
-              // buildTextField("Enter your full name", "email", "user"),
-              SizedBox(height: 16.0),
-              Text(
-                'No Handphone',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8.0),
-              // buildTextField("Enter your phone number", "email", "phone"),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Process the form data here
-                    print('Full Name: ${_fullNameController.text}');
-                    print('Phone Number: ${_phoneNumberController.text}');
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(59, 120, 138, 1),
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+    return ChangeNotifierProvider(
+      create: (_) => ChangeProfileProvider(),
+      child: Consumer<ChangeProfileProvider>(
+        builder: (context, value, child) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
+            if (value.resMessage != "") {
+              showMessage(
+                message: value.resMessage,
+                context: context,
+              );
+
+              value.clear();
+            }
+          });
+          return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    PageNavigator(ctx: context)
+                        .nextPageOnly(page: ProfilePage());
+                  },
+                  icon: const Icon(Icons.arrow_back),
+                  color: Colors.white,
                 ),
-                child: Text(
-                  'Change',
+                backgroundColor: AppColors.primaryElement,
+                title: const Text(
+                  "Ubah Profile",
                   style: TextStyle(
-                    color: Colors.white,
+                      color: Colors.white, fontWeight: FontWeight.w500),
+                )),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  reusableText("Ubah Nama"),
+                  SizedBox(
+                    height: 5,
                   ),
-                ),
+                  buildTextField(
+                      "Masukkan nama lengkap", "email", "user", _name),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  reusableText("Ubah No Handphone"),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  buildTextField("Masukkan nomor hp", "email", "phone", _no_hp),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  buildRegisterButton(
+                      context: context,
+                      buttonName: "Simpan",
+                      status: value.isLoading,
+                      tap: () {
+                        if (_name.text.isEmpty || _no_hp.text.isEmpty) {
+                          showMessage(
+                              message: "Data tidak boleh kosong",
+                              context: context);
+                        } else {
+                          value.changeProfile(
+                            name: _name.text,
+                            noHP: _no_hp.text,
+                            context: context,
+                          );
+                        }
+                      })
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

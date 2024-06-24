@@ -29,6 +29,7 @@ class _LoginPageState extends State<LoginPage> {
     return ScreenUtilInit(
       designSize: Size(360, 690),
       builder: (context, child) => MaterialApp(
+        debugShowCheckedModeBanner: false,
         home: ChangeNotifierProvider(
           create: (_) => LoginProvider(),
           child: Consumer<LoginProvider>(builder: (context, value, child) {
@@ -47,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               child: SafeArea(
                 child: Scaffold(
                   backgroundColor: Colors.white,
-                  appBar: buildAppBar("Login"),
+                  appBar: buildAppBar(context, "Masuk"),
                   body: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,13 +64,13 @@ class _LoginPageState extends State<LoginPage> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              buildTextField("Enter your email adress", "email",
-                                  "email", _email),
+                              buildTextField(
+                                  "Masukkan email", "email", "email", _email),
                               reusableText("Password"),
                               SizedBox(
                                 height: 5.h,
                               ),
-                              buildTextField("Enter your password", "email",
+                              buildTextField("Masukkan password", "password",
                                   "lock", _password)
                             ],
                           ),
@@ -77,12 +78,12 @@ class _LoginPageState extends State<LoginPage> {
                         forgotPassword(context),
                         buildLoginButton(
                           context: context,
-                          buttonName: "Login",
+                          buttonName: "Masuk",
                           status: value.isLoading,
                           tap: () {
                             if (_email.text.isEmpty || _password.text.isEmpty) {
                               showMessage(
-                                  message: "All fields are required",
+                                  message: "Semua field harus diisi",
                                   context: context);
                             } else {
                               value.loginUser(

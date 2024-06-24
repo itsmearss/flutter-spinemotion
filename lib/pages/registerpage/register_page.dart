@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:spinemotion_app/pages/registerpage/provider/terms.dart';
 import 'package:spinemotion_app/pages/registerpage/widgets/register_page_widgets.dart';
 import 'package:spinemotion_app/provider/register_provider.dart';
 import 'package:spinemotion_app/utils/snack_message.dart';
@@ -19,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController _noHp = TextEditingController();
   TextEditingController _password = TextEditingController();
   TextEditingController _confirmPassword = TextEditingController();
+  String _gender = 'Laki-laki';
 
   @override
   void dispose() {
@@ -51,58 +51,70 @@ class _RegisterPageState extends State<RegisterPage> {
             child: SafeArea(
               child: Scaffold(
                 backgroundColor: Colors.white,
-                appBar: buildAppBar(context, "Register"),
+                appBar: buildAppBar(context, "Buat Akun"),
                 body: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(top: 35.h),
+                        margin: EdgeInsets.only(top: 12.h),
                         padding: EdgeInsets.only(left: 25.w, right: 25.w),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            reusableText("Full Name"),
+                            reusableText("Nama Lengkap"),
                             SizedBox(
                               height: 5.h,
                             ),
-                            buildTextField("Enter your full name", "email",
+                            buildTextField("Masukkan nama lengkap", "email",
                                 "user", _fullname),
                             reusableText("Email"),
                             SizedBox(
                               height: 5.h,
                             ),
-                            buildTextField("Enter your email adress", "email",
-                                "email", _email),
-                            reusableText("Phone Number"),
+                            buildTextField(
+                                "Masukkan email", "email", "email", _email),
+                            reusableText("Nomor Handphone"),
                             SizedBox(
                               height: 5.h,
                             ),
-                            buildTextField("Enter your phone number", "email",
-                                "phone", _noHp),
+                            buildTextField(
+                                "Masukkan nomor hp", "email", "phone", _noHp),
                             reusableText("Password"),
                             SizedBox(
                               height: 5.h,
                             ),
-                            buildTextField("Enter your password", "email",
+                            buildTextField("Masukkan password", "password",
                                 "lock", _password),
-                            reusableText("Confirm Password"),
+                            reusableText("Konfirmasi Password"),
                             SizedBox(
                               height: 5.h,
                             ),
-                            buildTextField("Enter your password", "email",
-                                "lock", _confirmPassword),
-                            syaratKetentuan(),
-                            SizedBox(
-                              height: 25.h,
-                            )
+                            buildTextField("Masukkan konfirmasi password",
+                                "password", "lock", _confirmPassword),
+                            reusableText("Jenis Kelamin"),
+                            SizedBox(height: 5.h),
+                            Column(
+                              children: value.genders.map((String gender) {
+                                return RadioListTile<String>(
+                                  title: Text(gender),
+                                  value: gender,
+                                  groupValue: _gender,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _gender = newValue!;
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                            ),
                           ],
                         ),
                       ),
                       buildRegisterButton(
                           context: context,
                           status: value.isLoading,
-                          buttonName: "Register",
+                          buttonName: "Buat Akun",
                           tap: () {
                             if (_fullname.text.isEmpty ||
                                 _email.text.isEmpty ||
@@ -110,7 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 _password.text.isEmpty ||
                                 _confirmPassword.text.isEmpty) {
                               showMessage(
-                                  message: "All fields are required",
+                                  message: "Semua field harus terisi",
                                   context: context);
                             } else {
                               value.registerUser(
@@ -119,6 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                   noHp: _noHp.text.trim(),
                                   password: _password.text.trim(),
                                   confirmPassword: _confirmPassword.text.trim(),
+                                  gender: _gender,
                                   context: context);
                             }
                           })
