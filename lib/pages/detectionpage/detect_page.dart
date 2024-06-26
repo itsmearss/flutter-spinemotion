@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:spinemotion_app/common/values/colors.dart';
 import 'package:spinemotion_app/pages/startgerakan/start_gerakan.dart';
@@ -51,7 +52,7 @@ class _DetectPageState extends State<DetectPage> {
     ]);
     initializeCamera();
     _getUserIdAndConnect();
-
+    // startNavigationTimer();
     startCountdown();
   }
 
@@ -272,10 +273,10 @@ class _DetectPageState extends State<DetectPage> {
             Positioned(
                 top: 10,
                 left: 10,
-                width: 250,
                 child: Row(
                   children: [
-                    Image.asset('assets/videos/Seated-Wall-Angels.gif'),
+                    Image.asset('assets/videos/Seated-Wall-Angels.gif',
+                        height: 120),
                     SizedBox(height: 10),
                     Container(
                       padding: EdgeInsets.all(10),
