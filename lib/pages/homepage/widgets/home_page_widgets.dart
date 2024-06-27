@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:spinemotion_app/common/values/colors.dart';
 import 'package:spinemotion_app/pages/articlepage/article.dart';
 import 'package:spinemotion_app/pages/homepage/widgets/schedule.dart';
+import 'package:spinemotion_app/pages/profilepage/perform_page.dart';
 import 'package:spinemotion_app/pages/profilepage/profile_page.dart';
+import 'package:spinemotion_app/pages/terapipage/terapi_page.dart';
 import 'package:spinemotion_app/utils/routers.dart';
 
 import '../../articlepage/article_provider.dart';
@@ -27,7 +30,7 @@ Widget boxInfo(BuildContext context) {
               children: [
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 15.h,
+                    top: 35.h,
                     left: 20.w,
                     right: 20.w,
                   ),
@@ -63,7 +66,7 @@ Widget boxInfo(BuildContext context) {
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                    top: 80,
+                    top: 40,
                     left: 50,
                   ),
                   child: Column(
@@ -193,7 +196,7 @@ Widget boxStartTerapi(BuildContext context) {
                         builder: (context) => PlaceTypeView()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromRGBO(159, 156, 152, 1),
+                    backgroundColor: AppColors.primaryElement,
                     shadowColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(13.r),
@@ -203,7 +206,7 @@ Widget boxStartTerapi(BuildContext context) {
                     "Pilih Gerakanmu",
                     style: TextStyle(
                         color: Color.fromRGBO(238, 232, 213, 1),
-                        fontSize: 13.sp),
+                        fontSize: 10.sp),
                   ),
                 ),
               ),
@@ -306,20 +309,20 @@ Widget boxMenu(BuildContext context, String title) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                  "Performa",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
                 FittedBox(
                     fit: BoxFit.cover,
                     child: Image.asset(
                       "assets/images/visualize.png",
-                      width: 230,
-                      height: 220,
+                      width: 110,
+                      height: 110,
                     )),
-                Transform.translate(
-                    offset: Offset(0, -30),
-                    child: Text(
-                      "VISUALISASI",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ))
-                // Text("Visualisasi")
               ],
             ),
           ),
@@ -350,20 +353,20 @@ Widget boxMenu(BuildContext context, String title) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Text(
+                  "Artikel",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
                 FittedBox(
                     fit: BoxFit.cover,
                     child: Image.asset(
                       "assets/images/article.png",
-                      width: 230,
-                      height: 220,
+                      width: 110,
+                      height: 110,
                     )),
-                Transform.translate(
-                    offset: Offset(0, -30),
-                    child: Text(
-                      "INFORMASI KESEHATAN",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ))
-                // Text("Visualisasi")
               ],
             ),
           ),

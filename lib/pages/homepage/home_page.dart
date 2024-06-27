@@ -25,9 +25,9 @@ class HomePage extends StatelessWidget {
         body: Stack(
           children: [
             boxInfo(context),
-            buttonTheme(context),
+            // buttonTheme(context),
             boxStartTerapi(context),
-            Positioned(bottom: 160.h, child: titleMenu()),
+            // Positioned(bottom: 160.h, child: titleMenu()),
             SizedBox(
               height: 10.h,
             ),

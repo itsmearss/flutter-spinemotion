@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:spinemotion_app/pages/terapipage/terapi_model.dart';
+import 'package:spinemotion_app/pages/terapipage/bridge_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/chest_opener_stretch.dart';
+import 'package:spinemotion_app/pages/terapipage/cobra_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/mountain_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/push_up_to_down_dog.dart';
+import 'package:spinemotion_app/pages/terapipage/seated_wall_angels.dart';
+import 'package:spinemotion_app/pages/terapipage/table_top_lift.dart';
+import 'package:spinemotion_app/pages/terapipage/warrior_pose.dart';
 import 'package:spinemotion_app/pages/terapipage/widgets/terapi_page_widgets.dart';
 
 import '../homepage/widgets/calendar.dart';

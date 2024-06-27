@@ -1,10 +1,17 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:spinemotion_app/common/values/colors.dart';
 import 'package:spinemotion_app/pages/startgerakan/start_gerakan.dart';
+import 'package:spinemotion_app/pages/terapipage/bridge_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/chest_opener_stretch.dart';
+import 'package:spinemotion_app/pages/terapipage/cobra_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/mountain_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/push_up_to_down_dog.dart';
+import 'package:spinemotion_app/pages/terapipage/seated_wall_angels.dart';
+import 'package:spinemotion_app/pages/terapipage/table_top_lift.dart';
+import 'package:spinemotion_app/pages/terapipage/warrior_pose.dart';
 import 'package:spinemotion_app/provider/database_provider.dart';
 import 'dart:io';
 import 'dart:convert';
@@ -27,38 +34,33 @@ class _DetectPageState extends State<DetectPage> {
   late IO.Socket socket;
   late CameraController _controller;
   late List<CameraDescription> _cameras;
-  late Timer _timer;
-  late Timer? _navigationTimer;
-  late Timer? _countdownTimer;
+  Timer? _timer;
+  Timer? _navigationTimer;
   Uint8List? _imageBytes;
   String poseClass = '';
   double probability = 0.0;
   bool showImage = false;
-  bool isConnected = false; // Tambahkan variabel ini
+  bool isConnected = false;
   late String userId;
 
   String baseUrl = ApiEndPoints.baseUrl;
 
   int _start = 120;
-  int _countdownStart = 5; // Durasi countdown sebelum navigation timer
 
   @override
   void initState() {
     super.initState();
-    // Mengunci orientasi ke landscape
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
     initializeCamera();
     _getUserIdAndConnect();
-    // startNavigationTimer();
-    startCountdown();
+    startNavigationTimer();
   }
 
   @override
   void dispose() {
-    // Mengembalikan orientasi ke default (mengizinkan semua orientasi)
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
@@ -66,24 +68,10 @@ class _DetectPageState extends State<DetectPage> {
       DeviceOrientation.landscapeLeft,
     ]);
     socket.dispose();
-    _timer.cancel();
+    _timer?.cancel();
     _controller.dispose();
     _navigationTimer?.cancel();
-    _countdownTimer?.cancel();
     super.dispose();
-  }
-
-  void startCountdown() {
-    _countdownTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_countdownStart <= 0) {
-          _countdownTimer?.cancel();
-          startNavigationTimer();
-        } else {
-          _countdownStart--;
-        }
-      });
-    });
   }
 
   void startNavigationTimer() {
@@ -91,13 +79,32 @@ class _DetectPageState extends State<DetectPage> {
       setState(() {
         if (_start <= 0) {
           _navigationTimer?.cancel();
-          // Navigate to another page when the timer ends
-          PageNavigator(ctx: context).nextPageOnly(page: ExerciseDetailsPage());
+          navigateToNextPage();
         } else {
           _start--;
         }
       });
     });
+  }
+
+  void navigateToNextPage() {
+    if (widget.selectedPose == 'Chest-Opener-Stretch') {
+      PageNavigator(ctx: context).nextPageOnly(page: ChestOpenerStretchPage());
+    } else if (widget.selectedPose == 'Cobra-Pose') {
+      PageNavigator(ctx: context).nextPageOnly(page: CobraPosePage());
+    } else if (widget.selectedPose == 'Bridge-Pose') {
+      PageNavigator(ctx: context).nextPageOnly(page: BridgePosePage());
+    } else if (widget.selectedPose == 'Mountain-Pose') {
+      PageNavigator(ctx: context).nextPageOnly(page: MountainPosePage());
+    } else if (widget.selectedPose == 'Push-Up-to-Down-Dog') {
+      PageNavigator(ctx: context).nextPageOnly(page: PushUpToDownDogPage());
+    } else if (widget.selectedPose == 'Seated-Wall-Angels') {
+      PageNavigator(ctx: context).nextPageOnly(page: SeatedWallAngelsPage());
+    } else if (widget.selectedPose == 'Table-Top-Lift') {
+      PageNavigator(ctx: context).nextPageOnly(page: TableTopLiftPage());
+    } else if (widget.selectedPose == 'Warrior-Pose') {
+      PageNavigator(ctx: context).nextPageOnly(page: WarriorPosePage());
+    }
   }
 
   Future<void> _getUserIdAndConnect() async {
@@ -110,7 +117,6 @@ class _DetectPageState extends State<DetectPage> {
   }
 
   void connectToServer() async {
-    // Ganti 'http://your-flask-server-url' dengan URL server Flask Anda
     socket = IO.io(ApiEndPoints.baseUrl, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
@@ -121,25 +127,21 @@ class _DetectPageState extends State<DetectPage> {
       setState(() {
         isConnected = true;
       });
-      // Tampilkan Snackbar saat terhubung ke server
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Terhubung ke Socket.IO server'),
+          content: Text('Terhubung ke server'),
         ),
       );
       startSendingImages();
     });
 
     socket.on('response', (data) {
-      // Terima respons JSON dan ekstrak data gambar, kelas pose, dan probabilitas
       print('Received data from server: $data');
-
       try {
         String imageData = data['imageData'];
         String bodyLanguageClass = data['pose_class'];
         double prob = double.parse(data['prob']);
 
-        // Konversi data gambar dari base64 ke bytes
         List<int> imageBytes = base64Decode(imageData);
         setState(() {
           _imageBytes = Uint8List.fromList(imageBytes);
@@ -151,11 +153,17 @@ class _DetectPageState extends State<DetectPage> {
         print('Error handling response: $e');
       }
 
-      // Setelah 2 detik, kembali ke tampilan kamera
       Future.delayed(Duration(seconds: 1), () {
         setState(() {
           showImage = false;
         });
+      });
+    });
+
+    socket.on('disconnect', (_) {
+      print('Disconnected from server');
+      setState(() {
+        isConnected = false;
       });
     });
 
@@ -164,7 +172,20 @@ class _DetectPageState extends State<DetectPage> {
 
   Future<void> initializeCamera() async {
     _cameras = await availableCameras();
-    _controller = CameraController(_cameras[0], ResolutionPreset.high);
+    CameraDescription? frontCamera;
+    for (CameraDescription camera in _cameras) {
+      if (camera.lensDirection == CameraLensDirection.front) {
+        frontCamera = camera;
+        break;
+      }
+    }
+
+    if (frontCamera != null) {
+      _controller = CameraController(frontCamera, ResolutionPreset.high);
+    } else {
+      _controller = CameraController(_cameras[0], ResolutionPreset.high);
+    }
+
     await _controller.initialize();
     if (mounted) {
       setState(() {});
@@ -175,11 +196,10 @@ class _DetectPageState extends State<DetectPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Menghentikan pengiriman gambar dan kembali ke halaman sebelumnya
-        _timer.cancel();
+        _timer?.cancel();
         socket.dispose();
         Navigator.of(context).pop();
-        return false; // Mengindikasikan bahwa kita telah menangani tombol kembali
+        return false;
       },
       child: Scaffold(
         backgroundColor: AppColors.primaryElement,
@@ -203,30 +223,9 @@ class _DetectPageState extends State<DetectPage> {
                               child: CameraPreview(_controller),
                             )
                           : CircularProgressIndicator())
-                  : CircularProgressIndicator(), // Tampilkan loading saat belum terhubung
+                  : CircularProgressIndicator(),
             ),
-            if (isConnected && _countdownStart > 0)
-              Positioned(
-                top: 10,
-                right: 10,
-                child: Container(
-                  color: Colors.black54,
-                  padding: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Countdown: $_countdownStart detik',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            if (isConnected && _countdownStart <= 0)
+            if (isConnected)
               Positioned(
                 bottom: 20,
                 left: 20,
@@ -273,15 +272,20 @@ class _DetectPageState extends State<DetectPage> {
             Positioned(
                 top: 10,
                 left: 10,
-                child: Row(
+                width: 150,
+                height: 150,
+                child: Column(
                   children: [
-                    Image.asset('assets/videos/Seated-Wall-Angels.gif',
-                        height: 120),
+                    Image.asset(
+                      'assets/videos/${widget.selectedPose}.gif',
+                      width: 150,
+                    ),
                     SizedBox(height: 10),
                     Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.black54,
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,14 +294,14 @@ class _DetectPageState extends State<DetectPage> {
                             'Waktu Tersisa',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
                             '$_start detik',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -312,19 +316,13 @@ class _DetectPageState extends State<DetectPage> {
   }
 
   void startSendingImages() {
-    // Timer untuk mengambil dan mengirim gambar setiap 3 detik
     _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) async {
       if (_controller.value.isInitialized) {
-        // Ambil foto dari kamera
         final picture = await _controller.takePicture();
-        // Ambil file foto
         final File imageFile = File(picture.path);
-        // Baca file gambar sebagai byte
         final List<int> imageBytes = await imageFile.readAsBytes();
-        // Encode bytes ke base64
         final String base64Image = base64Encode(imageBytes);
 
-        // Kirim gambar ke server menggunakan Socket.IO
         socket.emit('image', {
           'image_data': base64Image,
           'userId': userId,

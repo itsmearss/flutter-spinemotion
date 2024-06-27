@@ -1,6 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spinemotion_app/common/values/colors.dart';
+import 'package:spinemotion_app/pages/homepage/home_page.dart';
+import 'package:spinemotion_app/pages/terapipage/bridge_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/chest_opener_stretch.dart';
+import 'package:spinemotion_app/pages/terapipage/cobra_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/mountain_pose.dart';
+import 'package:spinemotion_app/pages/terapipage/push_up_to_down_dog.dart';
+import 'package:spinemotion_app/pages/terapipage/seated_wall_angels.dart';
+import 'package:spinemotion_app/pages/terapipage/table_top_lift.dart';
+import 'package:spinemotion_app/pages/terapipage/warrior_pose.dart';
+import 'package:spinemotion_app/utils/routers.dart';
 
 import '../../terapipage/terapi_model.dart';
 import '../../terapipage/widgets/terapi_page_widgets.dart';
@@ -17,9 +28,20 @@ class PlaceTypeView extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Color.fromRGBO(201, 218, 223, 1),
           appBar: AppBar(
-            backgroundColor: Color.fromRGBO(201, 218, 223, 1),
+            leading: IconButton(
+              onPressed: () {
+                PageNavigator(ctx: context).nextPageOnly(page: HomePage());
+              },
+              icon: const Icon(Icons.arrow_back),
+              color: Colors.white,
+            ),
+            backgroundColor: AppColors.primaryElement,
             elevation: 0,
-            title: const Text("Jadwal Harian"),
+            title: const Text(
+              "Jadwal Harian",
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+            ),
             bottom: const CustomTabBar(),
           ),
           body: TabBarView(children: [
@@ -238,13 +260,13 @@ class _CustomTabBarState extends State<CustomTabBar> {
       unselectedLabelColor: Colors.black,
       padding: EdgeInsets.symmetric(horizontal: 15),
       tabs: [
-        TabItem(text: 'Senin', isSelected: _selectedIndex == 0),
-        TabItem(text: 'Selasa', isSelected: _selectedIndex == 1),
-        TabItem(text: 'Rabu', isSelected: _selectedIndex == 2),
-        TabItem(text: 'Kamis', isSelected: _selectedIndex == 3),
-        TabItem(text: 'Jumat', isSelected: _selectedIndex == 4),
-        TabItem(text: 'Sabtu', isSelected: _selectedIndex == 5),
-        TabItem(text: 'Minggu', isSelected: _selectedIndex == 6),
+        TabItem(text: 'Sen', isSelected: _selectedIndex == 0),
+        TabItem(text: 'Sel', isSelected: _selectedIndex == 1),
+        TabItem(text: 'Rab', isSelected: _selectedIndex == 2),
+        TabItem(text: 'Kam', isSelected: _selectedIndex == 3),
+        TabItem(text: 'Jum', isSelected: _selectedIndex == 4),
+        TabItem(text: 'Sab', isSelected: _selectedIndex == 5),
+        TabItem(text: 'Min', isSelected: _selectedIndex == 6),
       ],
     );
   }
@@ -277,6 +299,7 @@ class TabItem extends StatelessWidget {
           text,
           style: TextStyle(
             color: isSelected ? Colors.black : Color.fromRGBO(59, 120, 138, 1),
+            fontSize: 11,
           ),
         ),
       ),

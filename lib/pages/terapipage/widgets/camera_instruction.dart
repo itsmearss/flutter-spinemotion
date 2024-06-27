@@ -1,27 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spinemotion_app/common/values/colors.dart';
 
 import '../../detectionpage/detect_page.dart';
 
 class InstructionCamera extends StatelessWidget {
-  const InstructionCamera({super.key});
+  final String pose;
+  const InstructionCamera({super.key, required this.pose});
 
   @override
   Widget build(BuildContext context) {
     // Start a delayed function to navigate to the home page after 5 seconds
-    Future.delayed(Duration(seconds: 5), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetectPage(selectedPose: 'Bridge-Pose'),
-        ),
-      );
-    });
+    // Future.delayed(Duration(seconds: 5), () {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //       builder: (context) => DetectPage(selectedPose: pose),
+    //     ),
+    //   );
+    // });
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Instruksi Penggunaan Kamera'),
+        backgroundColor: AppColors.primaryElement,
+        title: Text(
+          'Instruksi Penggunaan Kamera',
+          style: TextStyle(fontWeight: FontWeight.w600),
+        ),
       ),
       body: Container(
         color: Color.fromRGBO(59, 120, 138, 0.1),
@@ -113,6 +119,12 @@ class InstructionCamera extends StatelessWidget {
                     ],
                   ),
                 ),
+                ElevatedButton(
+                    onPressed: () {
+                      MaterialPageRoute(
+                          builder: (context) => DetectPage(selectedPose: pose));
+                    },
+                    child: Text("Start Gerakan"))
               ],
             ),
           ],
