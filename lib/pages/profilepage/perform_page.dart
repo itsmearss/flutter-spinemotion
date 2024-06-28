@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:spinemotion_app/common/values/colors.dart';
+import 'package:spinemotion_app/pages/homepage/home_page.dart';
 import 'package:spinemotion_app/pages/profilepage/profile_page.dart';
 import 'package:spinemotion_app/provider/database_provider.dart';
 import 'package:spinemotion_app/utils/api_endpoints.dart';
@@ -27,6 +28,7 @@ class _PerformPageState extends State<PerformPage> {
 
   void _getToken() async {
     final newToken = await DatabaseProvider().getToken();
+    print(newToken);
     setState(() {
       token = newToken;
     });
@@ -55,7 +57,7 @@ class _PerformPageState extends State<PerformPage> {
       appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              PageNavigator(ctx: context).nextPageOnly(page: ProfilePage());
+              PageNavigator(ctx: context).nextPageOnly(page: HomePage());
             },
             icon: const Icon(Icons.arrow_back),
             color: Colors.white,

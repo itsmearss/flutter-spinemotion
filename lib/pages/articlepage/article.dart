@@ -15,6 +15,11 @@ class ArticlePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        title: Text('Article', style: TextStyle(fontWeight: FontWeight.w500)),
+        backgroundColor: Color.fromRGBO(59, 120, 138, 1),
+      ),
       backgroundColor: Color.fromRGBO(216, 228, 232, 1),
       body: listArticle(),
     );
@@ -26,22 +31,22 @@ class ArticlePage extends StatelessWidget {
           'https://res.cloudinary.com/dpm5irq1n/image/upload/v1718961259/article/l1kguxnzr3l1osrsxmef.png',
           'Kebiasaan Buruk Pemicu Kifosis yang Harus Dihindari',
           'Kifosis merupakan kondisi kelainan di lengkungan tulang belakang.',
-          "20 Juli 2024"),
+          "20 Juni 2024"),
       ListItem(
           'https://res.cloudinary.com/dpm5irq1n/image/upload/v1719015868/article/vlchuaorddxxfpdood09.png',
           'Alat Terapi Koreksi Postur Tulang Efektif?',
           'Postur tubuh yang salah dapat menyebabkan terjadinya kelainan bentuk tulang belakang. ',
-          "20 Juli 2024"),
+          "20 Juni 2024"),
       ListItem(
           'https://res.cloudinary.com/dpm5irq1n/image/upload/v1719016127/article/umbi9alundcrzavbjj6c.png',
           'Gerakan Pencegahan Kifosis',
           'Kamu bisa melakukan gerakan-gerakan senam di bawah ini untuk menyembuhkan kifosis ',
-          "20 Juli 2024"),
+          "20 Juni 2024"),
       ListItem(
           'https://res.cloudinary.com/dpm5irq1n/image/upload/v1719019031/article/r9u209zfeorr9jrtkdds.png',
           'Makanan yang Wajib Dikonsumsi untuk Pencegahan Kifosis',
           lipsum.loremIpsum(words: 15),
-          "20 Juli 2024"),
+          "20 Juni 2024"),
     ];
     return DefaultTabController(
       length: 2,

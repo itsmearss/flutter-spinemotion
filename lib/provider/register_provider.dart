@@ -61,7 +61,9 @@ class RegisterProvider extends ChangeNotifier {
         _isLoading = false;
         _resMessage = "Berhasil mendaftar, cek email untuk verifikasi";
         notifyListeners();
-        PageNavigator(ctx: context).nextPageOnly(page: const LoginPage());
+        await Future.delayed(Duration(milliseconds: 1500));
+
+        PageNavigator(ctx: context).nextPage(page: const LoginPage());
       } else {
         final res = jsonDecode(req.body);
 

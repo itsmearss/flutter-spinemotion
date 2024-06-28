@@ -48,7 +48,7 @@ class Welcome extends StatelessWidget {
                               1,
                               context,
                               "next",
-                              "Melakukan Gerakan Terapi",
+                              "Melakukan Gerakan",
                               "Dilakukan mandiri dengan aplikasi yang akan memudahkanmu",
                               "assets/images/yoga.png",
                             ),

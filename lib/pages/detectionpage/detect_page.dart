@@ -17,6 +17,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:typed_data';
+import 'dart:math' as math;
 
 import 'package:spinemotion_app/utils/api_endpoints.dart';
 import 'package:spinemotion_app/utils/routers.dart';
@@ -45,7 +46,7 @@ class _DetectPageState extends State<DetectPage> {
 
   String baseUrl = ApiEndPoints.baseUrl;
 
-  int _start = 120;
+  int _start = 12;
 
   @override
   void initState() {
@@ -211,7 +212,16 @@ class _DetectPageState extends State<DetectPage> {
                       ? _imageBytes != null
                           ? AspectRatio(
                               aspectRatio: _controller.value.aspectRatio,
-                              child: Image.memory(
+                              child:
+                                  // Transform(
+                                  //   alignment: Alignment.center,
+                                  //   transform: Matrix4.rotationY(math.pi),
+                                  //   child: Image.memory(
+                                  //     _imageBytes!,
+                                  //     fit: BoxFit.cover,
+                                  //   ),
+                                  // )
+                                  Image.memory(
                                 _imageBytes!,
                                 fit: BoxFit.cover,
                               ),

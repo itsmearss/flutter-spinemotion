@@ -76,16 +76,16 @@ Widget boxInfo(BuildContext context) {
                         "Dashboard",
                         style: TextStyle(
                           fontSize: 30.sp,
-                          color: Colors.white60,
+                          color: Colors.white,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 1,
                         ),
                       ),
                       Text(
-                        "Hallo Ryujin, Selamat Datang !",
+                        "Hallo, Selamat Datang !",
                         style: TextStyle(
                           fontSize: 15.sp,
-                          color: Colors.white70,
+                          color: Colors.white,
                           letterSpacing: 1,
                         ),
                       )
@@ -293,13 +293,8 @@ Widget boxMenu(BuildContext context, String title) {
     children: [
       InkWell(
         onTap: () {
-          // Navigator.push(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => ChangeNotifierProvider(
-          //         create: (context) => PageIndexNotifier(),
-          //         child: PerformPage(),),
-          //     ));
+          Navigator.of(context)
+              .push(MaterialPageRoute(builder: (context) => PerformPage()));
         },
         child: Container(
           width: 160.w,

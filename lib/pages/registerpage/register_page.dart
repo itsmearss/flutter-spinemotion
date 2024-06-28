@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return ChangeNotifierProvider(
         create: (_) => RegisterProvider(),
         child: Consumer<RegisterProvider>(builder: (context, value, child) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance!.addPostFrameCallback((_) {
             if (value.resMessage != "") {
               showMessage(
                 message: value.resMessage,

@@ -202,29 +202,6 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                       SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => PerformPage()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                                8), // Ubah nilai 12 sesuai kebutuhan
-                          ),
-                          backgroundColor: AppColors.primaryElement,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          textStyle: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        child: Text(
-                          'Performa Pengguna',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
                     ],
                   ),
                 ],

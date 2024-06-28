@@ -23,6 +23,7 @@ class InstructionCamera extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        foregroundColor: Colors.white,
         backgroundColor: AppColors.primaryElement,
         title: Text(
           'Instruksi Penggunaan Kamera',
@@ -32,7 +33,7 @@ class InstructionCamera extends StatelessWidget {
       body: Container(
         color: Color.fromRGBO(59, 120, 138, 0.1),
         padding: EdgeInsets.all(20),
-        margin: EdgeInsets.only(top: 20.h),
+        // margin: EdgeInsets.only(top: 20.h),
         child: Column(
           children: [
             Row(
@@ -119,14 +120,49 @@ class InstructionCamera extends StatelessWidget {
                     ],
                   ),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      MaterialPageRoute(
-                          builder: (context) => DetectPage(selectedPose: pose));
-                    },
-                    child: Text("Start Gerakan"))
               ],
             ),
+            SizedBox(height: 15.h),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetectPage(selectedPose: pose),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.circular(10), // Mengatur sudut tombol
+                      ),
+                      backgroundColor: AppColors.primaryElement,
+                      textStyle: const TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: const Text(
+                      'OPEN CAMERA',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

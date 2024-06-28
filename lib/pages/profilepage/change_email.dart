@@ -66,7 +66,7 @@ class _ChangeEmailPageState extends State<ChangeEmailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  reusableText("Email"),
+                  reusableText("Email baru"),
                   SizedBox(
                     height: 5,
                   ),
