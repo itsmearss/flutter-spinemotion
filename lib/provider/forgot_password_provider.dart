@@ -9,6 +9,7 @@ import 'package:spinemotion_app/utils/routers.dart';
 
 class ForgotPasswordProvider extends ChangeNotifier {
   String requestBaseUrl = ApiEndPoints.baseUrl;
+  String apiKey = ApiEndPoints.apiKey;
 
   // Setter
   bool _isLoading = false;
@@ -31,7 +32,10 @@ class ForgotPasswordProvider extends ChangeNotifier {
     print(body);
 
     try {
-      Map<String, String> headers = {'Content-Type': 'application/json'};
+      Map<String, String> headers = {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+      };
 
       http.Response req = await http.post(
         Uri.parse(url),

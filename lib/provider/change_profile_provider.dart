@@ -39,6 +39,7 @@ class ChangeProfileProvider extends ChangeNotifier {
       Map<String, String> headers = {
         'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer $token',
+        'x-api-key': apiKey
       };
 
       var request = http.MultipartRequest('PUT', Uri.parse(url));

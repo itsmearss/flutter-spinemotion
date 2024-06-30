@@ -39,9 +39,10 @@ class ChangePasswordProvider extends ChangeNotifier {
       Map<String, String> headers = {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
+        'x-api-key': apiKey
       };
 
-      http.Response req = await http.post(
+      http.Response req = await http.put(
         Uri.parse(url),
         headers: headers,
         body: jsonEncode(body),

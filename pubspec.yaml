@@ -49,6 +49,7 @@ dependencies:
   lorem_ipsum: ^0.0.3
   flutter_inappwebview: ^6.0.0
   video_player: ^2.8.7
+  google_sign_in: ^6.2.1
 
 
 
