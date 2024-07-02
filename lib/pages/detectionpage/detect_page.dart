@@ -46,7 +46,7 @@ class _DetectPageState extends State<DetectPage> {
 
   String baseUrl = ApiEndPoints.baseUrl;
 
-  int _start = 12;
+  int _start = 120;
 
   @override
   void initState() {
