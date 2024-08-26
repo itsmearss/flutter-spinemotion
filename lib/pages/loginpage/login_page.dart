@@ -93,6 +93,14 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                         ),
+                        // buildLoginButton(
+                        //   context: context,
+                        //   buttonName: "Login Google",
+                        //   status: value.isLoading,
+                        //   tap: () {
+                        //     value.googleLogin();
+                        //   },
+                        // ),
                         // buildLogInAndRegisterButton("Register", "register")
                       ],
                     ),

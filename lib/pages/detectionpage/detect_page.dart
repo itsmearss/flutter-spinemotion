@@ -17,7 +17,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:typed_data';
-import 'dart:math' as math;
 
 import 'package:spinemotion_app/utils/api_endpoints.dart';
 import 'package:spinemotion_app/utils/routers.dart';
@@ -68,7 +67,7 @@ class _DetectPageState extends State<DetectPage> {
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    socket.dispose();
+    disconnectFromServer();
     _timer?.cancel();
     _controller.dispose();
     _navigationTimer?.cancel();
@@ -80,6 +79,7 @@ class _DetectPageState extends State<DetectPage> {
       setState(() {
         if (_start <= 0) {
           _navigationTimer?.cancel();
+          disconnectFromServer(); // Disconnect from server
           navigateToNextPage();
         } else {
           _start--;
@@ -110,7 +110,7 @@ class _DetectPageState extends State<DetectPage> {
 
   Future<void> _getUserIdAndConnect() async {
     final id = await DatabaseProvider().getUserId();
-    print('userid  $id');
+    print('userid $id');
     setState(() {
       userId = id;
     });
@@ -193,12 +193,22 @@ class _DetectPageState extends State<DetectPage> {
     }
   }
 
+  void disconnectFromServer() {
+    if (isConnected) {
+      socket.dispose(); // Make sure to dispose of the socket properly
+      _timer?.cancel();
+      setState(() {
+        isConnected = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
         _timer?.cancel();
-        socket.dispose();
+        disconnectFromServer();
         Navigator.of(context).pop();
         return false;
       },
@@ -212,16 +222,7 @@ class _DetectPageState extends State<DetectPage> {
                       ? _imageBytes != null
                           ? AspectRatio(
                               aspectRatio: _controller.value.aspectRatio,
-                              child:
-                                  // Transform(
-                                  //   alignment: Alignment.center,
-                                  //   transform: Matrix4.rotationY(math.pi),
-                                  //   child: Image.memory(
-                                  //     _imageBytes!,
-                                  //     fit: BoxFit.cover,
-                                  //   ),
-                                  // )
-                                  Image.memory(
+                              child: Image.memory(
                                 _imageBytes!,
                                 fit: BoxFit.cover,
                               ),
@@ -326,7 +327,7 @@ class _DetectPageState extends State<DetectPage> {
   }
 
   void startSendingImages() {
-    _timer = Timer.periodic(Duration(seconds: 3), (Timer timer) async {
+    _timer = Timer.periodic(Duration(seconds: 2), (Timer timer) async {
       if (_controller.value.isInitialized) {
         final picture = await _controller.takePicture();
         final File imageFile = File(picture.path);

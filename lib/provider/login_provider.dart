@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:spinemotion_app/pages/homepage/home_page.dart';
 import 'package:spinemotion_app/provider/database_provider.dart';
@@ -12,11 +13,21 @@ class LoginProvider extends ChangeNotifier {
   String requestBaseUrl = ApiEndPoints.baseUrl;
   String apiKey = ApiEndPoints.apiKey;
 
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'openid',
+      'profile',
+    ],
+  );
+
   // Setter
+  GoogleSignInAccount? _user;
   bool _isLoading = false;
   String _resMessage = '';
 
   // Getter
+  GoogleSignInAccount get user => _user!;
   bool get isLoading => _isLoading;
   String get resMessage => _resMessage;
 
@@ -84,6 +95,72 @@ class LoginProvider extends ChangeNotifier {
       _isLoading = false;
       _resMessage = "Coba lagi";
       notifyListeners();
+    }
+  }
+
+  Future<void> googleLogin() async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      try {
+        var account = await googleSignIn.signIn();
+      } catch (error) {
+        print(error);
+      }
+
+      var account = await googleSignIn.signIn();
+      var authentication = await account?.authentication;
+
+      // We will use this token ID for authentication on the backend side.
+      var tokenId = authentication?.idToken;
+      print(tokenId);
+      print(account?.displayName);
+      // if (googleUser == null) {
+      //   print('Gagal masuk');
+      //   return;
+      // }
+      // print('Proses');
+      // _user = googleUser;
+
+      // final googleAuth = await googleUser.authentication;
+      // print('token');
+      // print(googleAuth.idToken);
+
+      // final response = await http.post(
+      //   Uri.parse('$requestBaseUrl/auth/google-login'),
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'x-api-key': apiKey,
+      //   },
+      //   body: jsonEncode({
+      //     'idToken': googleAuth.idToken,
+      //   }),
+      // );
+
+      // if (response.statusCode == 200 || response.statusCode == 201) {
+      //   final res = jsonDecode(response.body);
+
+      //   _isLoading = false;
+      //   _resMessage = "Berhasil masuk";
+      //   notifyListeners();
+
+      //   final userId = res["user"]["id"];
+      //   final token = res["token"];
+      //   DatabaseProvider().saveUserId(userId.toString());
+      //   DatabaseProvider().saveToken(token);
+      //   print(token);
+      //   print(userId);
+      // } else {
+      //   final res = jsonDecode(response.body);
+      //   _resMessage = res['message'];
+      //   _isLoading = false;
+      //   notifyListeners();
+      // }
+
+      // notifyListeners();
+    } catch (e) {
+      print(e);
     }
   }
 
